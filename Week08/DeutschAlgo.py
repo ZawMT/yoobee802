@@ -47,8 +47,52 @@ def deutsch_algorithm(oracle_gate):
     return circuit
 
 
+def generate_oracle_matrix():
+    # Ask number of input qubits (n)
+    n = int(input("How many input qubits: ").strip())
+
+    # Total qubits = input qubits + 1 helper qubit
+    total_qubits = n + 1
+
+    # Number of basis states (e.g 2^2 => 4)
+    dim = 2 ** total_qubits
+
+    # Number of function inputs (e.g 2^1 => 2)
+    num_inputs = 2 ** n
+
+    print(f"Enter the function values f(x) as 0 or 1:")
+
+    # Read truth table
+    f = {}
+    for i in range(num_inputs):
+        bitstring = format(i, f"0{n}b")   # e.g. 00, 01, 10, 11
+        val = int(input(f"f({bitstring}) = ").strip())
+        f[i] = val  # Take the output value and keep it first
+
+    # Create empty oracle matrix
+    oracle_matrix = np.zeros((dim, dim))
+
+    # Build matrix using |x,y> -> |x, y XOR f(x)>
+    for col in range(dim):
+        print(f"Col: {col}")
+        x = col >> 1        # all bits except last = input register
+        y = col & 1         # last bit = helper qubit
+        print(f"X: {x}")
+        print(f"Y: {y}")
+        new_y = y ^ f[x]    # XOR rule
+        print(f"New Y: {new_y}")
+        row = (x << 1) | new_y
+        print(f"Row: {row}")
+
+        print(f"Set: Matrix({row}, {col}) as 1")
+        oracle_matrix[row, col] = 1
+
+    return oracle_matrix
+
+
 # Prompt the user to input the 4x4 unitary matrix
-oracle_matrix = input_unitary_matrix()
+# oracle_matrix = input_unitary_matrix()
+oracle_matrix = generate_oracle_matrix()
 
 # Create the oracle gate from the user-defined unitary matrix
 oracle_gate = create_oracle_gate(oracle_matrix)
