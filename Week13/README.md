@@ -7,4 +7,4 @@ qc.cp(np.pi / 4, 2, 0)`
 The similar activity moves on to the next Qubit - Qubit 1, and so on. Finally, the swapping done to order the qubits in reverse - so MSB in the real case will come to first.
 
 The output circuit, statevector and amplitudes will be as follows:
-![QFT Output](/QFT-Output.png)
+![QFT Output](/Week13/QFT-Output.png)
