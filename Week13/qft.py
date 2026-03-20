@@ -1,8 +1,12 @@
+# Run this program as ipynb using JupyterLab
+
 from qiskit import QuantumCircuit
 from qiskit.quantum_info import Statevector
 import numpy as np
 
 # Build the QFT circuit for 3 qubits
+
+
 def qft_3qubit():
     qc = QuantumCircuit(3)
 
@@ -22,6 +26,7 @@ def qft_3qubit():
     qc.swap(0, 2)
 
     return qc
+
 
 qc = qft_3qubit()
 
